@@ -1,4 +1,4 @@
-FROM nvidia/cuda:10.0-cudnn7-devel
+FROM nvidia/cuda:9.0-cudnn7-devel
 ENV NB_USER masskt
 ENV NB_UID 1000
 RUN set -x && \
@@ -30,13 +30,8 @@ COPY fonts/*.ttf ./
 RUN set -x && \
     pip3 install cython && \
     pip3 install numpy && \
-    pip3 install --no-cache-dir -r requirements.txt && \
-    : "Japanese fonts installation for matplotlib" && \
-    python3 -c "import matplotlib;print(matplotlib.matplotlib_fname())" >> /tmp/matplot1.txt && \
-    python3 -c "import os;import matplotlib;print(os.path.dirname(matplotlib.matplotlib_fname())+'/fonts/ttf/')" >> /tmp/matplot2.txt && \
-    echo 'font.family : IPAexGothic' >> $(cat /tmp/matplot1.txt) && \
-    mv *.ttf  $(cat /tmp/matplot2.txt) && \
-    rm /tmp/matplot1.txt /tmp/matplot2.txt
+    pip3 install --no-cache-dir -r requirements.txt
+
 USER $NB_USER
 
 ENV LANG en_US.UTF-8 

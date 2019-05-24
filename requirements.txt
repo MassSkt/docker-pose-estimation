@@ -1,5 +1,5 @@
 tensorpack
-tensorflow-gpu
+tensorflow
 argparse
 dill
 fire
