@@ -34,21 +34,33 @@ if __name__ == '__main__':
     e = TfPoseEstimator(get_graph_path(args.model), target_size=(w, h))
     cap = cv2.VideoCapture(args.video)
 
+    # Define the codec and create VideoWriter object
+    fourcc = cv2.VideoWriter_fourcc(*'XVID')
+    out = cv2.VideoWriter('output.avi',fourcc, 20.0, (640,480))
+
+
     if cap.isOpened() is False:
         print("Error opening video stream or file")
     while cap.isOpened():
         ret_val, image = cap.read()
 
-        humans = e.inference(image)
+        #humans = e.inference(image)
+        humans = e.inference(image, resize_to_default=True, upsample_size=4.0)
         if not args.showBG:
             image = np.zeros(image.shape)
         image = TfPoseEstimator.draw_humans(image, humans, imgcopy=False)
 
         cv2.putText(image, "FPS: %f" % (1.0 / (time.time() - fps_time)), (10, 10),  cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
-        cv2.imshow('tf-pose-estimation result', image)
+
+        # write the flipped frame
+        out.write(image)
+
+        #cv2.imshow('tf-pose-estimation result', image)
         fps_time = time.time()
+        print('fps time;',fps_time)
         if cv2.waitKey(1) == 27:
             break
-
+    cap.release()
+    out.release()
     cv2.destroyAllWindows()
 logger.debug('finished+')
