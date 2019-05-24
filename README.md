@@ -47,7 +47,7 @@ $ bash download.sh
 You can test the inference feature with a single image.
 
 ```
-$ python run.py --model=mobilenet_thin --resize=432x368 --image=./images/p1.jpg
+$ python3 run.py --model=mobilenet_thin --resize=432x368 --image=./images/p1.jpg
 ```
 
 
@@ -68,7 +68,7 @@ $ python3 run_video.py --model=mobilenet_thin --video=./etcs/dance.mp4
 ### Realtime Webcam
 
 ```
-$ python run_webcam.py --model=mobilenet_thin --resize=432x368 --camera=0
+$ python3 run_webcam.py --model=mobilenet_thin --resize=432x368 --camera=0
 ```
 
 Then you will see the realtime webcam screen with estimated poses as below. This [Realtime Result](./etcs/openpose_macbook13_mobilenet2.gif) was recored on macbook pro 13" with 3.1Ghz Dual-Core CPU.
