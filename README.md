@@ -1,13 +1,17 @@
-
+main components are based on https://github.com/ildoonet/tf-pose-estimation
+Here the repo is revised to docker-based installation
+All the required settings are defined in the Dockerfile
 
 ### Install
 
+build docker image.
 ```
 docker build . -t pose-image
 docker run --runtime=nvidia -it -v $PWD:/usr/src/app --name tf-pose_app pose-image
 
 ```
 
+inside the container, proceed building c++.
 
 Build c++ library for post processing. See : https://github.com/ildoonet/tf-pose-estimation/tree/master/tf_pose/pafprocess
 ```
@@ -15,15 +19,6 @@ $ cd tf_pose/pafprocess
 $ swig -python -c++ pafprocess.i && python3 setup.py build_ext --inplace
 ```
 
-### Package Install
-
-Alternatively, you can install this repo as a shared package using pip.
-
-```bash
-$ git clone https://www.github.com/ildoonet/tf-pose-estimation
-$ cd tf-openpose
-$ python setup.py install  # Or, `pip install -e .`
-```
 
 ## Models & Performances
 
@@ -55,14 +50,20 @@ You can test the inference feature with a single image.
 $ python run.py --model=mobilenet_thin --resize=432x368 --image=./images/p1.jpg
 ```
 
+
 The image flag MUST be relative to the src folder with no "~", i.e:
 ```
 --image ../../Desktop
 ```
-
-Then you will see the screen as below with pafmap, heatmap, result and etc.
+the resutl image will be saved as "resultimg.png" pafmap, heatmap, result and etc.
 
 ![inferent_result](./etcs/inference_result2.png)
+
+### Video
+
+```
+$ python3 run_video.py --model=mobilenet_thin --video=./etcs/dance.mp4
+```
 
 ### Realtime Webcam
 
