@@ -36,11 +36,15 @@ if __name__ == '__main__':
 
     # Define the codec and create VideoWriter object
     fourcc = cv2.VideoWriter_fourcc(*'XVID')
-    out = cv2.VideoWriter('output.avi',fourcc, 20.0, (640,480))
+    Width = int(cap.get(3))
+    Height = int(cap.get(4))
 
+    out = cv2.VideoWriter('output.mp4',fourcc, 20, (Width,Height))
+    
 
     if cap.isOpened() is False:
         print("Error opening video stream or file")
+
     while cap.isOpened():
         ret_val, image = cap.read()
 
@@ -51,13 +55,13 @@ if __name__ == '__main__':
         image = TfPoseEstimator.draw_humans(image, humans, imgcopy=False)
 
         cv2.putText(image, "FPS: %f" % (1.0 / (time.time() - fps_time)), (10, 10),  cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
-
+        
         # write the flipped frame
         out.write(image)
 
         #cv2.imshow('tf-pose-estimation result', image)
         fps_time = time.time()
-        print('fps time;',fps_time)
+        #print('fps time;',(1.0 / (time.time() - fps_time)))
         if cv2.waitKey(1) == 27:
             break
     cap.release()
